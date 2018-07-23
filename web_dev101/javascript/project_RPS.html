@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    
+    </head>
+    
+    <body>
+        <script> 
+            let playerScore;
+            let cpuScore;
+            let roundNum;
+            let cancelGame=0;
+            
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            }
+            
+            function computerPlay(){
+                let cpuPlayNum = getRandomInt(3);
+                
+                return (cpuPlayNum==0) ? 'Rock' :
+                (cpuPlayNum==1) ? 'Paper' : 'Scissors';
+            }            
+            
+            function playRound(playerSelection, computerSelection=computerPlay()){
+                if(playerSelection==null){
+                    cancelGame=1;
+                }
+                    
+                
+                //Rock outcomes
+                if(playerSelection.slice(0,1).toUpperCase()+playerSelection.slice(1).toLowerCase()=="Rock"){
+                    if(computerSelection=="Rock"){
+                        roundNum++;
+                        return "Draw! Rock vs. Rock";
+                    }
+                    else if(computerSelection=="Paper"){
+                        cpuScore++;
+                        roundNum++;
+                        return 'You Lose! Paper beats Rock';
+                    }
+                    else if(computerSelection=="Scissors"){
+                        playerScore++;
+                        roundNum++;
+                        return 'You Won! Rock beats Scissors';}
+                    else return 'Please pick a valid option';
+                }
+               //Paper outcomes
+                if(playerSelection.slice(0,1).toUpperCase()+playerSelection.slice(1).toLowerCase()=="Paper"){
+                    if(computerSelection=="Rock"){
+                        playerScore++;
+                        roundNum++;
+                        return "You Won! Paper beats Rock";
+                    }
+                    else if(computerSelection=="Scissors"){
+                        cpuScore++;
+                        roundNum++;
+                        return 'You Lose! Scissors beats Paper';
+                    }
+                    else if(computerSelection=="Paper"){
+                        roundNum++;
+                        return 'Draw! Paper vs. Paper';
+                    }
+                    else return 'Please pick a valid option';
+                }
+                //Scissors outcomes
+                if(playerSelection.slice(0,1).toUpperCase()+playerSelection.slice(1).toLowerCase()=="Scissors"){
+                    if(computerSelection=="Paper"){
+                        playerScore++;
+                        roundNum++;
+                        return "You Won! Scissors beats Paper";
+                    }
+                    else if(computerSelection=="Rock"){
+                        cpuScore++;
+                        roundNum++;
+                        return 'You Lose! Rock beats Scissors';
+                    }
+                    else if(computerSelection=="Scissors"){
+                        roundNum++;
+                        return 'Draw! Scissors vs. Scissors';
+                    }
+                    else return 'Please pick a valid option';
+                }
+            }
+            
+            function game(){
+                roundNum=1;
+                cpuScore=0;
+                playerScore=0;
+                
+                while(cpuScore<5 || playerScore<5){
+                    console.log(`Round ${roundNum}`);
+                    console.log(playRound(prompt('Rock, Paper, Scissors?'),computerPlay()));
+                    console.log(`Player Score:${playerScore} vs. Computer Score:${cpuScore}`);
+                    console.log(' ');
+                    
+                    if(playerScore==5){
+                        console.log('Congratulations! You Won');
+                        break;
+                    }
+                    if(cpuScore==5){
+                        console.log('Sorry! You Lost');
+                        break;
+                    }  
+                }
+            }
+            
+            game();
+        
+        </script>
+    </body>
+</html>
