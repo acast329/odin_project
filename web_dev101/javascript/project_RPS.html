@@ -9,7 +9,6 @@
             let playerScore;
             let cpuScore;
             let roundNum;
-            let cancelGame=0;
             
             function getRandomInt(max) {
                 return Math.floor(Math.random() * Math.floor(max));
@@ -23,11 +22,6 @@
             }            
             
             function playRound(playerSelection, computerSelection=computerPlay()){
-                if(playerSelection==null){
-                    cancelGame=1;
-                }
-                    
-                
                 //Rock outcomes
                 if(playerSelection.slice(0,1).toUpperCase()+playerSelection.slice(1).toLowerCase()=="Rock"){
                     if(computerSelection=="Rock"){
