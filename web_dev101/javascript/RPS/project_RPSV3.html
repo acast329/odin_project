@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>RPS v2</title>
+        <link href="rps.css" rel="stylesheet" type="text/css">
+    </head>
+    
+    <body>
+        <main>
+            <div class="round"></div>
+            <div class="scoreboard">
+                <div>You vs. CPU</div>
+                <div id="playerScore" class='score'></div>
+                <div id="cpuScore" class='score'></div>
+                <div id="roundInfo">First to 5 points wins</div>
+            </div>
+            <div class="choices">
+                <button class="choice">Rock</button>
+                <button class="choice">Paper</button>
+                <button class="choice">Scissors</button>
+                <button id="reset">New Game</button>
+            </div>
+            
+        </main>
+        
+        
+        <script>
+            let playerScore=0;
+            let cpuScore=0;
+            let roundNum=0;
+            
+            const round=document.querySelector(".round");
+            const userScore = document.querySelector("#playerScore");
+            const compScore = document.querySelector("#cpuScore");
+            const roundInfo = document.querySelector('#roundInfo');
+            const choice = document.querySelectorAll('.choice');
+            const reset=document.querySelector('#reset');
+            
+            round.textContent=`Round Number ${roundNum}`;
+            userScore.textContent=`${playerScore}`;
+            compScore.textContent=`${cpuScore}`;
+            
+            choice.forEach(picked => picked.addEventListener("click", playRound));
+            
+            
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            }
+            
+            function computerPlay(){
+                let cpuPlayNum = getRandomInt(3);
+                
+                return (cpuPlayNum==0) ? 'Rock' :
+                (cpuPlayNum==1) ? 'Paper' : 'Scissors';
+            }            
+            
+            function playRound(e, computerSelection=computerPlay()){
+                playerSelection = this.textContent;
+                round.textContent=`Round Number ${roundNum}`;
+                userScore.textContent=`${playerScore}`;
+                compScore.textContent=`${cpuScore}`;
+                
+                if(playerSelection == computerSelection){
+                    roundInfo.style.color = 'black';
+                    roundInfo.textContent = `Draw! ${playerSelection} vs. ${computerSelection}`;
+                } 
+                else if ((playerSelection == "Rock" && computerSelection == "Scissors") || (playerSelection == "Paper" && computerSelection == "Rock") || (playerSelection == "Scissors" && computerSelection == "Paper")){
+                    playerScore++;
+                    roundInfo.style.color = 'green';
+                    roundInfo.textContent = `Round Won! ${playerSelection} beats ${computerSelection}`;
+                } 
+                else {
+                    cpuScore++;
+                    roundInfo.style.color = 'red';
+                    roundInfo.textContent = `Round Lost! ${computerSelection} beats ${playerSelection}`;
+                }
+                
+                
+                if (cpuScore==5 || playerScore==5){
+                    reset.style.display='inline-block';
+                    choice.forEach(picked => picked.style.display='none');
+                    if (cpuScore==5)
+                        roundInfo.textContent='GAME OVER! You Lost!';
+                    else
+                        roundInfo.textContent='GAME OVER! You Won!';
+                    
+                    reset.addEventListener('click', replay);
+                    
+                    function replay(){
+                        cpuScore = 0;
+                        playerScore = 0;
+                        roundNum = 0;
+                        round.textContent=`Round Number ${roundNum}`;
+                        userScore.textContent=`${playerScore}`;
+                        compScore.textContent=`${cpuScore}`;
+                        roundInfo.style.color = 'black';
+                        roundInfo.textContent = 'Starting a new game!';
+                        reset.style.display='none';
+                        choice.forEach(picked => picked.style.display='inline-block');
+                    }
+                
+                    
+                }
+                roundNum++;
+                round.textContent=`Round Number ${roundNum}`;
+                userScore.textContent=`${playerScore}`;
+                compScore.textContent=`${cpuScore}`;
+                
+            }
+            
+            
+            
+        
+        </script>
+    </body>
+</html>
