@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="etch.css">
+    </head>
+    
+    <body>
+        <div id="container"></div>
+        <button>Reset</button>
+        
+        
+        <script>
+            let gridSize = 16;
+            const container = document.getElementById('container');
+            
+            for(let i=0;i<gridSize*gridSize;i++){
+                const div = document.createElement("div");
+                div.style.width = 100/gridSize + '%';
+                div.style.height = 100/gridSize + '%';
+                container.appendChild(div);
+            }
+            
+            let cells = document.querySelectorAll('div div');
+            cells.forEach(cell => cell.addEventListener('mouseover',(e)=>{
+                var randomColor = Math.floor(Math.random()*16777215).toString(16);
+                cell.style.background = '#'+ randomColor;
+              })
+            );
+        
+            const reset = document.querySelector('button');
+            reset.addEventListener('click', (e)=>{
+                gridSize = prompt('Choose grid size',16);
+                
+                while (container.hasChildNodes()){
+                    container.removeChild(container.firstChild);
+                }
+                
+                for(let i=0;i<gridSize*gridSize;i++){
+                const div = document.createElement("div");
+                div.style.width = 100/gridSize + '%';
+                div.style.height = 100/gridSize + '%';
+                container.appendChild(div);
+                }
+                
+                let cells = document.querySelectorAll('div div');
+                cells.forEach(cell => cell.addEventListener('mouseover',(e)=>{
+                    var randomColor = Math.floor(Math.random()*16777215).toString(16);
+                cell.style.background = '#'+ randomColor;
+              })
+            );
+            })
+        </script>
+    </body>
+</html>
